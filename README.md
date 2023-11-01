@@ -11,3 +11,7 @@ Como rodar esse repositório
   O que foi feito até agora:
   ---
   -Foi feito o crud do microcontrolador. o Crud de dados ainda não foi testado.
+
+  Teste da api
+  ---
+  Para testar a API importe o arquivo presente na pasta [Insomnia](https://github.com/GuilhermeAlx/Api-para-dataloggers/tree/main/insomnia) no Insomnia.
