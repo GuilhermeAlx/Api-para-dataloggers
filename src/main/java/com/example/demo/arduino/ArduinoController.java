@@ -42,8 +42,8 @@ public class ArduinoController {
         return ResponseEntity.ok().body(arduinoRepository.save(arduino));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deletaControlador() {
+    @DeleteMapping("/")
+    public ResponseEntity deletaControlador(@RequestParam String id) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Não é possível deletar um microcontrolador. Somente editar a sua descrição");
     }

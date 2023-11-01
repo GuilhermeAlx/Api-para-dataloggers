@@ -21,7 +21,7 @@ public class Arduino {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequencia_generator")
   @EqualsAndHashCode.Include
-    Long id;
+  Long id;
 
     @Column(name = "descricao")
     String descricao;

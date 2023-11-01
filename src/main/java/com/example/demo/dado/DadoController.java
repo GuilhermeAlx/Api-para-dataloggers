@@ -1,24 +1,26 @@
-package com.example.dado;
+package com.example.demo.dado;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dado.dtos.DadoDTO;
 import com.example.demo.arduino.Arduino;
 import com.example.demo.arduino.ArduinoRepository;
+import com.example.demo.dado.dtos.DadoDTO;
 
 @RestController
-@RequestMapping("/api/Dado")
+@RequestMapping("/api/dado")
 public class DadoController {
 
     @Autowired
-    DadoRepository DadoRepository;
+    DadoRepository dadoRepository;
 
     @Autowired
     ArduinoRepository arduinoRepository;
@@ -26,18 +28,21 @@ public class DadoController {
     @GetMapping("/dadosArduino")
     public Object index(@RequestParam String idString) {
         long id = Long.parseLong(idString);
-        return ResponseEntity.ok(DadoRepository.findAllByArduinoId(id));
+        return ResponseEntity.ok(dadoRepository.findAllByArduinoId(id));
     }
 
-    @PostMapping("/insere-Dados")
-    public ResponseEntity Object(@RequestBody DadoDTO dadoDTO) {
+    @PostMapping(consumes = { "multipart/form-data" })
+    public ResponseEntity store(@ModelAttribute @Valid DadoDTO dadoDTO) {
 
         Arduino arduino = arduinoRepository.getOne(dadoDTO.getArduinoId());
 
+        System.out.println("\nPressao: "+dadoDTO.getPressaoAnalogico());
+
         if (arduino != null) {
-            Dado Dado = new Dado(dadoDTO.getArduinoId(), dadoDTO.getPressaoAnalogico(), dadoDTO.getFrequencia(),
+            Dado dado = new Dado(dadoDTO.getArduinoId(), dadoDTO.getPressaoAnalogico(), dadoDTO.getFrequencia(),
                     dadoDTO.getVazao(), dadoDTO.getPressaoProcessada());
-            return ResponseEntity.ok().body(DadoRepository.save(Dado));
+                    System.out.println("\n\nData: "+dado.getData().toString());
+            return ResponseEntity.ok().body(dadoRepository.save(dado));
         }else{
             return ResponseEntity.ofNullable(arduino);
         }

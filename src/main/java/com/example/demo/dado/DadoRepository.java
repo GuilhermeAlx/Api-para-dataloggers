@@ -1,4 +1,4 @@
-package com.example.dado;
+package com.example.demo.dado;
 
 import java.util.List;
 
