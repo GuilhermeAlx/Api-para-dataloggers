@@ -15,12 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.arduino.dtos.AtualizaArduinoDTO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 @RestController
 @RequestMapping("/api/arduino")
 public class ArduinoController {
 
     @Autowired
     ArduinoRepository arduinoRepository;
+
+@PersistenceContext
+  private EntityManager entityManager;
+
 
     @GetMapping("/existe-arduino")
     public boolean getArduinoExist(@RequestParam String idString) {
