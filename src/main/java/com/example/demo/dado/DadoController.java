@@ -40,26 +40,21 @@ public class DadoController {
     @GetMapping("/dadosArduino")
     public Object index(@RequestParam String idString) {
         long id = Long.parseLong(idString);
-
-        
-        return ResponseEntity.ok(dadoRepository.findBy(idString));
+        return ResponseEntity.ok(dadoRepository.findAllByArduinoId(Long.parseLong(idString)));
     }
 
     @PostMapping(consumes = { "multipart/form-data" })
     public ResponseEntity store(@ModelAttribute @Valid DadoDTO dadoDTO) {
 
-        System.out.println("\nPressao: " + dadoDTO.getPressaoAnalogico());
 
         Arduino arduino = arduinoRepository.getOne(dadoDTO.getArduinoId());
-        System.out.println("id: "+arduino.getId());
-
         if (arduino.getId() != null) {
             Dado dado = new Dado(arduino, dadoDTO.getPressaoAnalogico(), dadoDTO.getFrequencia(),
                     dadoDTO.getVazao(), dadoDTO.getPressaoProcessada());
             System.out.println("\n\nData: " + dado.getData().toString());
             return ResponseEntity.ok().body(dadoRepository.save(dado));
         } else {
-            System.out.println("Naou achou");
+            System.out.println("Arduino inexistente");
             throw new EmptyStackException();
         }
     }
