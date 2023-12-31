@@ -35,6 +35,9 @@ public class Arduino {
   @Column(name = "descricao")
   String descricao;
 
+  @Column(name= "status")
+  ArduinoStatus arduinoStatus;
+
   
   @OneToMany(mappedBy = "arduino", cascade = CascadeType.ALL)
   @JsonIgnoreProperties({ "arduino" })

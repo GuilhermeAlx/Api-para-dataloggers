@@ -21,6 +21,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -58,9 +60,9 @@ public class Dado {
     @Column(name = "pressaoProcessada")
     private float pressaoProcessada;
 
-    @UpdateTimestamp
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    @Column(name = "data", nullable = true, columnDefinition = "DATE")
+    @DateTimeFormat(pattern="dd-MM-dd'T'HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "startDateTime", nullable = true, columnDefinition = "TIMESTAMP")
     private Date data;
 
     public Dado(Arduino arduino, int pressaoAnalogico, int frequencia, float vazao, float pressaoProcessada) {

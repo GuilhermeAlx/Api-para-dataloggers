@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 public interface DadoRepository extends JpaRepositoryImplementation<Dado, Long> {
     
     List<Dado> findAllByArduinoId(Long id);
+
+    Dado findFirstByArduinoIdOrderByDataAsc(Long id);
 }

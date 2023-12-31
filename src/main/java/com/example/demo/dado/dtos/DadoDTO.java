@@ -14,7 +14,5 @@ public class DadoDTO {
     private float vazao;
 
     private float pressaoProcessada;
-
-
     
 }
