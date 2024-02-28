@@ -10,14 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.arduino.dtos.AtualizaArduinoDTO;
 
-
-
-
 @Repository
 @EnableJpaRepositories
-public interface ArduinoRepository  extends JpaRepositoryImplementation<Arduino, Long> {
+public interface ArduinoRepository extends JpaRepositoryImplementation<Arduino, Long> {
 
-    
 }
-
-

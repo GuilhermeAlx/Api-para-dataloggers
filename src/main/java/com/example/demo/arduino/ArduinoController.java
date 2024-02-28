@@ -25,27 +25,26 @@ public class ArduinoController {
     @Autowired
     ArduinoRepository arduinoRepository;
 
-@PersistenceContext
-  private EntityManager entityManager;
-
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @GetMapping("/existe-arduino")
     public boolean getArduinoExist(@RequestParam String idString) {
         long id = Long.parseLong(idString);
 
-        return  arduinoRepository.existsById(id);
+        return arduinoRepository.existsById(id);
     }
 
     @GetMapping("/descreve-dispositivo")
     public ResponseEntity getDescricao(@RequestParam String idString) {
         long id = Long.parseLong(idString);
-        
-        return  ResponseEntity.ok().body(arduinoRepository.findById(id));
+
+        return ResponseEntity.ok().body(arduinoRepository.findById(id));
     }
 
     @PostMapping("/cria-novo-id/")
     public ResponseEntity store(@RequestParam String descricao) {
-        Arduino arduino = new Arduino(descricao);
+        Arduino arduino = new Arduino(descricao, ArduinoStatus.A);
         return ResponseEntity.ok().body(arduinoRepository.save(arduino));
     }
 
@@ -54,16 +53,13 @@ public class ArduinoController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Não é possível deletar um microcontrolador. Somente editar a sua descrição");
     }
-    
 
     @PostMapping("/atualizar-arduino")
-    public ResponseEntity atualizaDescricao(@RequestBody @Valid AtualizaArduinoDTO atualizaArduinoDTO){
-        Arduino arduino=arduinoRepository.getOne(atualizaArduinoDTO.getId());
+    public ResponseEntity atualizaDescricao(@RequestBody @Valid AtualizaArduinoDTO atualizaArduinoDTO) {
+        Arduino arduino = arduinoRepository.getOne(atualizaArduinoDTO.getId());
         arduino.setDescricao(atualizaArduinoDTO.getDescricao());
         return ResponseEntity.ok().body(arduinoRepository.save(arduino));
 
     }
-
-
 
 }
