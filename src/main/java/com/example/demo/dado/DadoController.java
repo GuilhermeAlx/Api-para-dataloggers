@@ -64,11 +64,11 @@ public class DadoController {
         List<ListaUltimoDadoSalvoPorSensorDTO> dados = new ArrayList<>();
 
         for (Arduino arduino : arduinos) {
-            List<Dado> dadosArduino = arduino.getDado();
-            dadosArduino.sort((p1, p2) -> p1.getData().compareTo(p2.getData()));
-            ListaUltimoDadoSalvoPorSensorDTO listaUltimoDadoSalvoPorSensorDTO = new ListaUltimoDadoSalvoPorSensorDTO(
-                    arduino.getId(), arduino.getDescricao(), dadosArduino.get(dadosArduino.size() - 1));
-            dados.add(listaUltimoDadoSalvoPorSensorDTO);
+            Pageable page = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "data"));
+            Page<Dado> dado = dadoRepository.findAllByArduinoId(arduino.getId(), page);
+            ListaUltimoDadoSalvoPorSensorDTO dadoConstrutor = new ListaUltimoDadoSalvoPorSensorDTO(arduino.getId(),
+                    arduino.getDescricao(), dado.getContent().get(0));
+            dados.add(dadoConstrutor);
         }
 
         return dados;

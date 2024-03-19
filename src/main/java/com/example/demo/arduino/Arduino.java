@@ -43,9 +43,9 @@ public class Arduino {
   @Column(name = "status", columnDefinition = "char(1)")
   private ArduinoStatus arduinoStatus;
 
-  @OneToMany(mappedBy = "arduino", cascade = CascadeType.ALL)
-  @JsonIgnoreProperties({ "arduino" })
-  private List<Dado> dado;
+  // @OneToMany(mappedBy = "arduino", cascade = CascadeType.ALL)
+  // @JsonIgnoreProperties({ "arduino" })
+  // private List<Dado> dado;
 
   public Arduino(String descricao, ArduinoStatus arduinoStatus) {
     this.descricao = descricao;
