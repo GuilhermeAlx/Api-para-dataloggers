@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import com.example.demo.dado.Dado;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +34,8 @@ import lombok.NoArgsConstructor;
 public class Arduino {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+  @SequenceGenerator(name = "id_Sequence", sequenceName = "sequencia_nome_Arduino", initialValue = 11)
   @EqualsAndHashCode.Include
   @Column(name = "id_arduino")
   private Long id;

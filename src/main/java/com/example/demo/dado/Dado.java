@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,6 +22,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,7 +39,8 @@ import lombok.NoArgsConstructor;
 public class Dado {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
+    @SequenceGenerator(name = "id_Sequence", sequenceName = "sequencia_nome_Dado", initialValue = 101)
     @EqualsAndHashCode.Include
     @Column(name = "id_dado")
     Long id;
@@ -60,7 +64,7 @@ public class Dado {
     @Column(name = "pressaoProcessada")
     private float pressaoProcessada;
 
-    @DateTimeFormat(pattern="dd-MM-dd'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-dd'T'HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "startDateTime", nullable = true, columnDefinition = "TIMESTAMP")
     private Date data;

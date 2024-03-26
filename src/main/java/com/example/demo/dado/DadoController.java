@@ -6,14 +6,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.util.PropertySource.Comparator;
-import org.hibernate.engine.internal.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,11 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.arduino.Arduino;
 import com.example.demo.arduino.ArduinoController;
 import com.example.demo.arduino.ArduinoRepository;
-import com.example.demo.arduino.dtos.DescricaoArduino;
 import com.example.demo.dado.dtos.DadoDTO;
 import com.example.demo.dado.dtos.ListaUltimoDadoSalvoPorSensorDTO;
-import org.springframework.data.domain.Sort.Direction;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -50,7 +44,7 @@ public class DadoController {
     private EntityManager entityManager;
 
     @GetMapping("/dadosArduino")
-    public ResponseEntity<Object> index(@RequestParam String idString) {
+    public ResponseEntity<Page<Dado>> index(@RequestParam String idString) {
         long id = Long.parseLong(idString);
         Pageable page = PageRequest.of(0, Integer.MAX_VALUE, Sort.by(Sort.Direction.DESC, "data"));
         return ResponseEntity.ok(dadoRepository.findAllByArduinoId(id, page));
@@ -75,14 +69,14 @@ public class DadoController {
     }
 
     @PostMapping(consumes = { "multipart/form-data" })
-    public ResponseEntity store(@ModelAttribute @Valid DadoDTO dadoDTO) {
+    public ResponseEntity<Dado> store(@ModelAttribute @Valid DadoDTO dadoDTO) {
 
         Arduino arduino = arduinoRepository.getOne(dadoDTO.getArduinoId());
         if (arduino.getId() != null) {
             Dado dado = new Dado(arduino, dadoDTO.getPressaoAnalogico(), dadoDTO.getFrequencia(),
                     dadoDTO.getVazao(), dadoDTO.getPressaoProcessada());
-            System.out.println("\n\nData: " + dado.getData().toString());
-            return ResponseEntity.ok().body(null);
+
+            return ResponseEntity.ok().body(dadoRepository.save(dado));
         } else {
             throw new EmptyStackException();
         }
