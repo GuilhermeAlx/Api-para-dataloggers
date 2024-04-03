@@ -1,25 +1,22 @@
 package com.example.demo.arduino;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ArduinoStatus {
+  A("ATIVO"),
+  B("BLOQUEADO"),
+  I("INATIVO");
 
-    A("ATIVO"),
-    B("BLOQUEADO"),
-    I("INATIVO"),
-    S("SUSPENSO");
+  private final String ArduinoStatus;
 
-    private final String ArduinoStatus;
+  private ArduinoStatus(final String ArduinoStatus) {
+    this.ArduinoStatus = ArduinoStatus;
+  }
 
-    private ArduinoStatus(final String ArduinoStatus) {
-        this.ArduinoStatus = ArduinoStatus;
-    }
-
-    public String getValue() {
-        return this.name();
-    }
+  public String getValue() {
+    return this.name();
+  }
 }

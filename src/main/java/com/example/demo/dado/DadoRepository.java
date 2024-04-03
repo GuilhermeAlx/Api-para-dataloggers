@@ -1,18 +1,18 @@
 package com.example.demo.dado;
 
+import com.example.demo.dado.dtos.DadoDTO;
+import java.util.List;
 import javax.validation.Valid;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import com.example.demo.dado.dtos.DadoDTO;
+@Repository
+public interface DadoRepository extends CrudRepository<Dado, Long> {
+  Page<Dado> findAllByArduinoId(Long id, Pageable page);
 
-public interface DadoRepository extends JpaRepositoryImplementation<Dado, Long> {
+  List<Dado> findByArduinoId(Long id, Pageable page);
 
-    Page<Dado> findAllByArduinoId(Long id, Pageable page);
-
-    Dado findFirstByArduinoIdOrderByDataAsc(Long id);
-
-    void save(@Valid DadoDTO dadoDTO);
+  void save(@Valid DadoDTO dadoDTO);
 }
